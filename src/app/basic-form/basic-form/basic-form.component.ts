@@ -14,8 +14,27 @@ export class BasicFormComponent implements OnInit {
 
   ngOnInit() {
     this.form = new FormGroup({
-      firstName: new FormControl(null, Validators.required),
-      lastName: new FormControl(null, Validators.required),
+      firstName: new FormControl('eirini', [Validators.required,Validators.minLength(3)]),
+      lastName: new FormControl('kelidou', Validators.required),
+      isExperienced: new FormControl(null, Validators.required),
+      angular: new FormControl(null, Validators.required),
+      favouriteLanguage: new FormControl(null, Validators.required),
+      jsversion: new FormControl(null, Validators.required),
+    });
+
+
+    this.form.get('firstName').valueChanges.subscribe(console.log)
+    this.form.get('lastName').valueChanges.subscribe(console.log)
+
+    this.form.get('favouriteLanguage').valueChanges.subscribe(value =>
+      {const jsVersionFormControl = this.form.get('jsversion');
+    if (value === 'JS') {
+      jsVersionFormControl.setValidators(Validators.required);
+    }
+    else {
+      jsVersionFormControl.clearValidators();
+    }
+    jsVersionFormControl.updateValueAndValidity();
     });
 
   }
